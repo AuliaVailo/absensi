@@ -86,5 +86,17 @@ class Admin_model extends CI_Model{
         $this->db->order_by('nama', 'ASC');
         return $this->db->get('v_validasi_harian');
     }
+
+    function hari_ini($status){
+        if($status == 'hadir'){
+            $this->db->where('jam_masuk !=', NULL,'false');
+        }elseif($status == 'tidakhadir'){
+            $this->db->where('jam_masuk =', NULL,'false');
+        }else{
+
+        }
+        $this->db->order_by('nama', 'ASC');
+        return $this->db->get('v_lap_harian');
+    }
     
 }

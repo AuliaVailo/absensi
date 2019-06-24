@@ -12,7 +12,27 @@ class Admin_sdm extends CI_Controller {
 
     public function index(){
         //$this->load->view('admin_sdm/dashboard_admin');
-        $this->load->view('admin_sdm/dashboard');
+        $harian = $this->admin_model->hari_ini('all');
+        $hadir = $this->admin_model->hari_ini('hadir');
+        $tidak_hadir = $this->admin_model->hari_ini('tidakhadir');
+
+        $persentase_hadir = ($hadir->num_rows()/$harian->num_rows())*100;
+        $persentase_tidakhadir = ($tidak_hadir->num_rows()/$harian->num_rows())*100;
+
+        /*
+        echo 'Total Pegawai     : '.$harian->num_rows().'<br> 
+              Total Hadir       : '.$hadir->num_rows().'<br>
+              Total TIdak Hadir : '.$tidak_hadir->num_rows();
+        */
+
+        $data = array(
+            'persentase_hadir'      => number_format($persentase_hadir,2,',','.'),
+            'persentase_tidakhadir' => number_format($persentase_tidakhadir,2,',','.'),
+            'data_hadir'            => $hadir->result(),
+            'tidak_hadir'           => $tidak_hadir->result()
+        );  
+
+        $this->load->view('admin_sdm/dashboard', $data);
     }
     
     function validasi_kprk(){

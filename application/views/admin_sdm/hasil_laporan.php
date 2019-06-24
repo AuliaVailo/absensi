@@ -118,7 +118,7 @@
             <i class="fa fa-files-o"></i>
             <span>Validasi Absensi</span>
             <span class="pull-right-container">
-              <span class="label label-primary pull-right">4</span>
+              <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
@@ -131,6 +131,9 @@
           <a href="#">
             <i class="fa fa-book"></i>
             <span>Laporan</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
           </a>
           <ul class="treeview-menu">
             <li><a href="<?=site_url('admin_sdm/laporan_harian');?>"><i class="fa fa-calendar"></i>Laporan Validasi Harian</a></li>
@@ -227,7 +230,18 @@
 
                         $lama_di_kantor = $jam .  ' jam, ' . floor( $menit / 60 ) . ' menit';
 
-                        echo '<tr>';
+                        if($jam >= 7 ){
+                          if($jam_masuk == '00:00:00'){
+                            $bg = 'style="background-color : yellow;"';
+                          }else{
+                            $bg = 'style="background-color : green;"';
+                          }
+                          
+                        }else{
+                          $bg = 'style="background-color : yellow;"';
+                        }
+
+                        echo '<tr '.$bg.'>';
                         echo '<td>'.$i.'</td>
                               <td>'.$row->nippos.'</td>
                               <td>'.$row->nama.'</td>

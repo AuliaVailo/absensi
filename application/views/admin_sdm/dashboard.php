@@ -37,6 +37,36 @@
 
   <!-- Google Font -->
   <!--<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">-->
+  <style>
+  .table-container {
+    height: 25em;
+  }
+  table {
+      display: flex;
+      flex-flow: column;
+      height: 100%;
+      width: 100%;
+  }
+  table thead {
+      /* head takes the height it requires, 
+      and it's not scaled when table is resized */
+      flex: 0 0 auto;
+      width: calc(100% - 0.9em);
+  }
+  table tbody {
+      /* body takes all the remaining available space */
+      flex: 1 1 auto;
+      display: block;
+      overflow-y: scroll;
+  }
+  table tbody tr {
+      width: 100%;
+  }
+  table thead, table tbody tr {
+      display: table;
+      table-layout: fixed;
+  }
+  </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -171,9 +201,9 @@
           <!-- small box -->
           <div class="small-box bg-aqua">
             <div class="inner">
-              <h3>80<sup style="font-size: 20px">%</sup></h3>
+              <h3><?=$persentase_hadir;?><sup style="font-size: 20px">%</sup></h3>
 
-              <p>Kehadiran</p>
+              <p>Hadir</p>
             </div>
             <div class="icon">
               <i class="ion ion-stats-bars"></i>
@@ -186,9 +216,9 @@
           <!-- small box -->
           <div class="small-box bg-green">
             <div class="inner">
-              <h3>20<sup style="font-size: 20px">%</sup></h3>
+              <h3><?=$persentase_tidakhadir;?><sup style="font-size: 20px">%</sup></h3>
 
-              <p>Ketidakhadiran</p>
+              <p>Belum Hadir</p>
             </div>
             <div class="icon">
               <i class="ion ion-stats-bars"></i>
@@ -207,14 +237,147 @@
           <div class="nav-tabs-custom">
             <!-- Tabs within a box -->
             <ul class="nav nav-tabs pull-right">
-              <li class="active"><a href="#revenue-chart" data-toggle="tab">Kehadiran</a></li>
-              <li><a href="#sales-chart" data-toggle="tab">Ketidakhadiran</a></li>
-              <li class="pull-left header"><i class="fa fa-inbox"></i> Grafik Kehadiran</li>
+              <li class="active"><a href="#belum" data-toggle="tab">Belum Hadir</a></li>
+              <li><a href="#hadir" data-toggle="tab">Sudah Hadir</a></li>
+              <li class="pull-left header"><i class="fa fa-inbox"></i> Laporan Kehadiran Tanggal : <?=date('d-m-Y');?></li>
             </ul>
             <div class="tab-content no-padding">
               <!-- Morris chart - Sales -->
-              <div class="chart tab-pane active" id="revenue-chart" style="position: relative; height: 250px;"></div>
-              <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 250px;"></div>
+              <div class="tab-pane table-container" id="hadir" style="position: relative; min-height: 250px;">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>No</th>
+                      <th>Nippos</th>
+                      <th>Nama</th>
+                      <th>Tanggal</th>
+                      <th>Jam Masuk</th>
+                      <th>Jam Pulang</th>
+                      <th>Lama di Kantor</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php
+                    $i = 1;
+                      foreach($data_hadir as $row){
+                        $jam_masuk = '00:00:00';
+                        $jam_pulang = '00:00:00';
+
+                        if($row->jam_masuk != NULL || $row->jam_masuk != ''){
+                            $jam_masuk = $row->jam_masuk;
+                        }
+
+                        if($row->jam_pulang != NULL || $row->jam_pulang != ''){
+                            $jam_pulang = $row->jam_pulang;
+                        }
+
+                        $awal  = strtotime($jam_masuk); //waktu awal
+
+                        $akhir = strtotime($jam_pulang); //waktu akhir
+
+                        $diff  = $akhir - $awal;
+
+                        $jam   = floor($diff / (60 * 60));
+
+                        $menit = $diff - $jam * (60 * 60);
+
+                        $lama_di_kantor = $jam .  ' jam, ' . floor( $menit / 60 ) . ' menit';
+
+                        if($jam >= 7 ){
+                          if($jam_masuk == '00:00:00'){
+                            $bg = 'style="background-color : yellow;"';
+                          }else{
+                            $bg = 'style="background-color : green;"';
+                          }
+                          
+                        }else{
+                          $bg = 'style="background-color : yellow;"';
+                        }
+
+
+                        echo '<tr '.$bg.'>';
+                        echo '<td>'.$i.'</td>
+                              <td>'.$row->nik_nippos.'</td>
+                              <td>'.$row->nama.'</td>
+                              <td>'.$row->tanggal.'</td>
+                              <td>'.$jam_masuk.'</td>
+                              <td>'.$jam_pulang.'</td>
+                              <td>'.$lama_di_kantor.'</td>';
+                        echo '</tr>';
+                        $i++;
+                      }
+                    ;?>
+                  </tbody>
+                </table>
+              </div>
+              <div class="tab-pane table-container active" id="belum" style="position: relative; min-height: 250px;">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>No</th>
+                      <th>Nippos</th>
+                      <th>Nama</th>
+                      <th>Tanggal</th>
+                      <th>Jam Masuk</th>
+                      <th>Jam Pulang</th>
+                      <th>Lama di Kantor</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php
+                    $i = 1;
+                      foreach($tidak_hadir as $row){
+                        $jam_masuk = '00:00:00';
+                        $jam_pulang = '00:00:00';
+
+                        if($row->jam_masuk != NULL || $row->jam_masuk != ''){
+                            $jam_masuk = $row->jam_masuk;
+                        }
+
+                        if($row->jam_pulang != NULL || $row->jam_pulang != ''){
+                            $jam_pulang = $row->jam_pulang;
+                        }
+
+                        $awal  = strtotime($jam_masuk); //waktu awal
+
+                        $akhir = strtotime($jam_pulang); //waktu akhir
+
+                        $diff  = $akhir - $awal;
+
+                        $jam   = floor($diff / (60 * 60));
+
+                        $menit = $diff - $jam * (60 * 60);
+
+                        $lama_di_kantor = $jam .  ' jam, ' . floor( $menit / 60 ) . ' menit';
+
+                        
+                        if($jam >= 7 ){
+                          if($jam_masuk == '00:00:00'){
+                            $bg = 'style="background-color : yellow;"';
+                          }else{
+                            $bg = 'style="background-color : green;"';
+                          }
+                          
+                        }else{
+                          $bg = 'style="background-color : yellow;"';
+                        }
+
+
+                        echo '<tr '.$bg.'>';
+                        echo '<td>'.$i.'</td>
+                              <td>'.$row->nik_nippos.'</td>
+                              <td>'.$row->nama.'</td>
+                              <td>'.$row->tanggal.'</td>
+                              <td>'.$jam_masuk.'</td>
+                              <td>'.$jam_pulang.'</td>
+                              <td>'.$lama_di_kantor.'</td>';
+                        echo '</tr>';
+                        $i++;
+                      }
+                    ;?>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
           <!-- /.nav-tabs-custom -->

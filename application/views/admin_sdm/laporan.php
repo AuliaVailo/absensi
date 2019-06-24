@@ -118,7 +118,7 @@
             <i class="fa fa-files-o"></i>
             <span>Validasi Absensi</span>
             <span class="pull-right-container">
-              <span class="label label-primary pull-right">4</span>
+              <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
@@ -131,6 +131,9 @@
           <a href="#">
             <i class="fa fa-book"></i>
             <span>Laporan</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
           </a>
           <ul class="treeview-menu">
             <li><a href="<?=site_url('admin_sdm/laporan_harian');?>"><i class="fa fa-calendar"></i>Laporan Validasi Harian</a></li>
@@ -178,7 +181,7 @@
                 <div class="form-group">
                   <label for="tanggal_absensi" class="col-sm-2 control-label">Tanggal Absensi</label>
                   <div class="col-sm-5">
-                    <input type="date" name="tanggal" value="2019-06-23" class="form-control">
+                    <input type="date" name="tanggal" data-date-format="DD MMMM YYYY" value="2019-06-23" class="form-control">
                   </div>
                 </div>
               </div>
