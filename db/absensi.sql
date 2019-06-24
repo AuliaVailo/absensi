@@ -6782,7 +6782,7 @@ CREATE TABLE `td_validasi` (
   `status_kerja` varchar(25) DEFAULT NULL,
   KEY `td_validasi` (`tgl_valiasi`),
   KEY `id_data` (`id_data`)
-) ENGINE=InnoDB AUTO_INCREMENT=17305 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17253 DEFAULT CHARSET=latin1;
 
 /*Data for the table `td_validasi` */
 
