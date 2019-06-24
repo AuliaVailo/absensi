@@ -95,8 +95,10 @@ class Admin_model extends CI_Model{
         }else{
 
         }
+        $this->db->order_by('kd_dtkantor', 'ASC');
+        $this->db->order_by('id_bagian', 'ASC');
         $this->db->order_by('nama', 'ASC');
-        return $this->db->get('v_lap_harian');
+        return $this->db->get('v_data_hari_ini');
     }
     
 }

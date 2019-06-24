@@ -254,6 +254,7 @@
                       <th>Jam Masuk</th>
                       <th>Jam Pulang</th>
                       <th>Lama di Kantor</th>
+                      <th>Keterangan</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -302,7 +303,9 @@
                               <td>'.$row->tanggal.'</td>
                               <td>'.$jam_masuk.'</td>
                               <td>'.$jam_pulang.'</td>
-                              <td>'.$lama_di_kantor.'</td>';
+                              <td>'.$lama_di_kantor.'</td>
+                              <td>'.$row->nama_kantor.' | '.$row->nama_bagian.'</td>';
+                              
                         echo '</tr>';
                         $i++;
                       }
@@ -321,6 +324,7 @@
                       <th>Jam Masuk</th>
                       <th>Jam Pulang</th>
                       <th>Lama di Kantor</th>
+                      <th>Keterangan</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -370,7 +374,8 @@
                               <td>'.$row->tanggal.'</td>
                               <td>'.$jam_masuk.'</td>
                               <td>'.$jam_pulang.'</td>
-                              <td>'.$lama_di_kantor.'</td>';
+                              <td>'.$lama_di_kantor.'</td>
+                              <td>'.$row->nama_kantor.' | '.$row->nama_bagian.'</td>';
                         echo '</tr>';
                         $i++;
                       }
