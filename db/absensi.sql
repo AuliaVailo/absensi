@@ -18467,6 +18467,27 @@ DROP TABLE IF EXISTS `v_cari_laporan_bulanan`;
  `tahun` varchar(4) 
 )*/;
 
+/*Table structure for table `v_data_hari_ini` */
+
+DROP TABLE IF EXISTS `v_data_hari_ini`;
+
+/*!50001 DROP VIEW IF EXISTS `v_data_hari_ini` */;
+/*!50001 DROP TABLE IF EXISTS `v_data_hari_ini` */;
+
+/*!50001 CREATE TABLE  `v_data_hari_ini`(
+ `nik_nippos` varchar(9) ,
+ `nama` varchar(35) ,
+ `alamat` text ,
+ `no_hp` varchar(12) ,
+ `id_bagian` int(11) ,
+ `nama_bagian` varchar(50) ,
+ `kd_dtkantor` varchar(7) ,
+ `nama_kantor` varchar(35) ,
+ `jam_masuk` varchar(8) ,
+ `jam_pulang` varchar(8) ,
+ `tanggal` date 
+)*/;
+
 /*Table structure for table `v_laporan_validasi_bulanan` */
 
 DROP TABLE IF EXISTS `v_laporan_validasi_bulanan`;
@@ -18884,6 +18905,13 @@ DROP TABLE IF EXISTS `v_validasi_harian`;
 /*!50001 DROP VIEW IF EXISTS `v_cari_laporan_bulanan` */;
 
 /*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_cari_laporan_bulanan` AS select `v_laporan_validasi_bulanan`.`no_validasi` AS `no_validasi`,`v_laporan_validasi_bulanan`.`tanggal_validasi` AS `tanggal_validasi`,`v_laporan_validasi_bulanan`.`status_validasi` AS `status_validasi`,`v_laporan_validasi_bulanan`.`nippos` AS `nippos`,`v_laporan_validasi_bulanan`.`nama` AS `nama`,`v_laporan_validasi_bulanan`.`tanggal` AS `tanggal`,`v_laporan_validasi_bulanan`.`jam_masuk` AS `jam_masuk`,`v_laporan_validasi_bulanan`.`jam_pulang` AS `jam_pulang`,`v_laporan_validasi_bulanan`.`ket` AS `ket`,`v_laporan_validasi_bulanan`.`status` AS `status`,`v_laporan_validasi_bulanan`.`status_kerja` AS `status_kerja`,`v_laporan_validasi_bulanan`.`id_bagian` AS `id_bagian`,`v_laporan_validasi_bulanan`.`kantor` AS `kantor`,substr(`v_laporan_validasi_bulanan`.`tanggal`,6,2) AS `bulan`,substr(`v_laporan_validasi_bulanan`.`tanggal`,1,4) AS `tahun` from `v_laporan_validasi_bulanan` */;
+
+/*View structure for view v_data_hari_ini */
+
+/*!50001 DROP TABLE IF EXISTS `v_data_hari_ini` */;
+/*!50001 DROP VIEW IF EXISTS `v_data_hari_ini` */;
+
+/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_data_hari_ini` AS select `pegawai`.`nik_nippos` AS `nik_nippos`,`pegawai`.`nama` AS `nama`,`pegawai`.`alamat` AS `alamat`,`pegawai`.`no_hp` AS `no_hp`,`pegawai`.`id_bagian` AS `id_bagian`,`tm_bagian`.`nama_bagian` AS `nama_bagian`,`pegawai`.`kd_dtkantor` AS `kd_dtkantor`,`td_kantor`.`nama_kantor` AS `nama_kantor`,`v_lap_masuk_hari_ini`.`jam_masuk` AS `jam_masuk`,`v_lap_pul_hari_ini`.`jam_pulang` AS `jam_pulang`,curdate() AS `tanggal` from ((((`v_lap_masuk_hari_ini` left join `pegawai` on(`v_lap_masuk_hari_ini`.`nik_nippos` = `pegawai`.`nik_nippos`)) left join `v_lap_pul_hari_ini` on(`v_lap_pul_hari_ini`.`nik_nippos` = `pegawai`.`nik_nippos`)) join `td_kantor` on(`pegawai`.`kd_dtkantor` = `td_kantor`.`kode_dtkantor`)) join `tm_bagian` on(`pegawai`.`id_bagian` = `tm_bagian`.`id`)) */;
 
 /*View structure for view v_laporan_validasi_bulanan */
 
