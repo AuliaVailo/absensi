@@ -83,8 +83,8 @@ $db['default'] = array(
 	'dbprefix' => '',
 	'pconnect' => FALSE,
 	'db_debug' => (ENVIRONMENT !== 'production'),
-	'cache_on' => FALSE,
-	'cachedir' => '',
+	'cache_on' => TRUE, //true on 23 6 2019
+	'cachedir' => 'application/cache/database', //true on 23 6 2019
 	'char_set' => 'utf8',
 	'dbcollat' => 'utf8_general_ci',
 	'swap_pre' => '',

@@ -164,43 +164,193 @@
     <section class="content">
       <!-- Small boxes (Stat box) -->
       <div class="row">
-        <div class="col-lg-12 col-xs-12">
-          <div class="box box-success">
-            <div class="box-header">
-              <h1>Laporan KPRK</h1>
+      <div class="col-md-12">
+          <!-- Horizontal Form -->
+          <div class="box box-info">
+            <div class="box-header with-border">
+              <?php 
+              
+              if($jenis == 'harian'){
+                $jenis = 'Harian';
+              }elseif($jenis == 'bulanan'){
+                $jenis = 'Bulanan';
+              }else{
+                $jenis = 'Rekapan';
+              }
+
+              ;?>
+              <h3 class="box-title">Laporan Absensi <?=$jenis;?> Tanggal <?=date('d-m-Y', strtotime($tanggal));?></h3>
+              <button class="btn btn-info pull-right" id="export"><i class="fa fa-file-excel-o"></i>&nbsp Export</button>
+              <p></p>
             </div>
-            <div class="box-body">
-              <form action="<?=site_url('admin_sdm/cari_laporan_kprk');?>" method="POST">
-                <div class="col-xs-4">
-                  <select class="form-control" name="tahun" required>
-                    <option value="2017">2017</option>
-                    <option value="2018">2018</option>
-                  </select>
-                </div>
-                <div class="col-xs-5">
-                    <select class="form-control" name="bulan" required>
-                      <option value="01">Januari</option>
-                      <option value="02">Februari</option>
-                      <option value="03">Maret</option>
-                      <option value="04">April</option>
-                      <option value="05">Mei</option>
-                      <option value="06">Juni</option>
-                      <option value="07">Juli</option>
-                      <option value="08">Agustus</option>
-                      <option value="09">September</option>
-                      <option value="10">Oktober</option>
-                      <option value="11">November</option>
-                      <option value="12">Desember</option>
-                    </select>
-                </div>
-                <div class="col-xs-2">
-                  <input type="submit" name="sumbit" class="form-control btn-info btn-flat" value="Cari">
-                  
-                </div>
-              </form>
-            </div>
-          
+            <!-- /.box-header -->
+            <!-- form start -->
+              <div class="box-body" id="cetak">
+                <?php if($jenis == 'Harian'): ;?>
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>No</th>
+                      <th>Nippos</th>
+                      <th>Nama</th>
+                      <th>Tanggal</th>
+                      <th>Jam Masuk</th>
+                      <th>Jam Pulang</th>
+                      <th>Lama di Kantor</th>
+                      <th>Keterangan</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php
+                    $i = 1;
+                      foreach($laporan_harian as $row){
+                        $jam_masuk = '00:00:00';
+                        $jam_pulang = '00:00:00';
+
+                        if($row->jam_masuk != NULL || $row->jam_masuk != ''){
+                            $jam_masuk = $row->jam_masuk;
+                        }
+
+                        if($row->jam_pulang != NULL || $row->jam_pulang != ''){
+                            $jam_pulang = $row->jam_pulang;
+                        }
+
+                        $awal  = strtotime($jam_masuk); //waktu awal
+
+                        $akhir = strtotime($jam_pulang); //waktu akhir
+
+                        $diff  = $akhir - $awal;
+
+                        $jam   = floor($diff / (60 * 60));
+
+                        $menit = $diff - $jam * (60 * 60);
+
+                        $lama_di_kantor = $jam .  ' jam, ' . floor( $menit / 60 ) . ' menit';
+
+                        echo '<tr>';
+                        echo '<td>'.$i.'</td>
+                              <td>'.$row->nippos.'</td>
+                              <td>'.$row->nama.'</td>
+                              <td>'.$row->tanggal.'</td>
+                              <td>'.$jam_masuk.'</td>
+                              <td>'.$jam_pulang.'</td>
+                              <td>'.$lama_di_kantor.'</td>
+                              <td>Kantor : '.$row->kd_dtkantor.' | '.$row->status_kerja.' - '.$row->ket.'</td>';
+                        echo '</tr>';
+                        $i++;
+                      }
+                    ;?>
+                  </tbody>
+                </table>
+                <?php elseif($jenis == 'Bulanan'): ;?>
+                <table class="table table-bordered">
+                    <tbody><tr>
+                      <th style="width: 10px">#</th>
+                      <th>Task</th>
+                      <th>Progress <?=$jenis;?></th>
+                      <th style="width: 40px">Label</th>
+                    </tr>
+                    <tr>
+                      <td>1.</td>
+                      <td>Update software</td>
+                      <td>
+                        <div class="progress progress-xs">
+                          <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
+                        </div>
+                      </td>
+                      <td><span class="badge bg-red">55%</span></td>
+                    </tr>
+                    <tr>
+                      <td>2.</td>
+                      <td>Clean database</td>
+                      <td>
+                        <div class="progress progress-xs">
+                          <div class="progress-bar progress-bar-yellow" style="width: 70%"></div>
+                        </div>
+                      </td>
+                      <td><span class="badge bg-yellow">70%</span></td>
+                    </tr>
+                    <tr>
+                      <td>3.</td>
+                      <td>Cron job running</td>
+                      <td>
+                        <div class="progress progress-xs progress-striped active">
+                          <div class="progress-bar progress-bar-primary" style="width: 30%"></div>
+                        </div>
+                      </td>
+                      <td><span class="badge bg-light-blue">30%</span></td>
+                    </tr>
+                    <tr>
+                      <td>4.</td>
+                      <td>Fix and squish bugs</td>
+                      <td>
+                        <div class="progress progress-xs progress-striped active">
+                          <div class="progress-bar progress-bar-success" style="width: 90%"></div>
+                        </div>
+                      </td>
+                      <td><span class="badge bg-green">90%</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <?php else: ;?>
+                <table class="table table-bordered">
+                    <tbody><tr>
+                      <th style="width: 10px">#</th>
+                      <th>Task</th>
+                      <th>Progress <?=$jenis;?></th>
+                      <th style="width: 40px">Label</th>
+                    </tr>
+                    <tr>
+                      <td>1.</td>
+                      <td>Update software</td>
+                      <td>
+                        <div class="progress progress-xs">
+                          <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
+                        </div>
+                      </td>
+                      <td><span class="badge bg-red">55%</span></td>
+                    </tr>
+                    <tr>
+                      <td>2.</td>
+                      <td>Clean database</td>
+                      <td>
+                        <div class="progress progress-xs">
+                          <div class="progress-bar progress-bar-yellow" style="width: 70%"></div>
+                        </div>
+                      </td>
+                      <td><span class="badge bg-yellow">70%</span></td>
+                    </tr>
+                    <tr>
+                      <td>3.</td>
+                      <td>Cron job running</td>
+                      <td>
+                        <div class="progress progress-xs progress-striped active">
+                          <div class="progress-bar progress-bar-primary" style="width: 30%"></div>
+                        </div>
+                      </td>
+                      <td><span class="badge bg-light-blue">30%</span></td>
+                    </tr>
+                    <tr>
+                      <td>4.</td>
+                      <td>Fix and squish bugs</td>
+                      <td>
+                        <div class="progress progress-xs progress-striped active">
+                          <div class="progress-bar progress-bar-success" style="width: 90%"></div>
+                        </div>
+                      </td>
+                      <td><span class="badge bg-green">90%</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <?php endif;?>
+              </div>
+              <!-- /.box-body -->
+              <div class="box-footer">
+                
+              </div>
+              <!-- /.box-footer -->
           </div>
+          <!-- /.box -->
         </div>
       </div>
     </section>
@@ -257,5 +407,18 @@
 <script src="<?=base_url('assets/js/pages/dashboard.js');?>"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="<?=base_url('assets/js/demo.js');?>"></script>
+
+<script>
+$("#export").click(function(e) {
+    let file = new Blob([$('#cetak').html()], {type:"application/vnd.ms-excel"});
+    let url = URL.createObjectURL(file);
+    let a = $("<a />", {
+      href: url,
+      download: "laporan_absensi.xls"}).appendTo("body").get(0).click();
+      e.preventDefault();
+});
+
+
+</script>
 </body>
 </html>

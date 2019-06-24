@@ -175,7 +175,81 @@ class Admin_sdm extends CI_Controller {
         //$this->db->insert_batch('td_validasi', $data);
         
     }
-            
+
+    function laporan_harian(){
+        $data = array(
+            'action'    => site_url('admin_sdm/cari_laporan_harian'),
+            'jenis'     => 'harian'
+        );
+
+        $this->load->view('admin_sdm/laporan', $data);
+    }
+
+    function cari_laporan_harian(){
+
+        $tanggal = $this->input->post('tanggal');
+
+        $laporan_harian = array();
+        $query = $this->admin_model->get_lap_harian($tanggal);
+        if($query->num_rows() > 0 ){
+            $laporan_harian = $query->result();
+        }
+
+        $data = array(
+            'tanggal'           => $tanggal,
+            'jenis'             => 'harian',
+            'laporan_harian'    => $laporan_harian
+        );
+
+        $this->load->view('admin_sdm/hasil_laporan', $data);
+    }
+
+    function laporan_bulanan(){
+        $data = array(
+            'action'    => site_url('admin_sdm/cari_laporan_bulanan'),
+            'jenis'     => 'harian'
+        );
+
+        $this->load->view('admin_sdm/laporan', $data);
+    }
+
+    function cari_laporan_bulanan(){
+
+        $tanggal = $this->input->post('tanggal');
+
+        $data = array(
+            'tanggal'   => $tanggal,
+            'jenis'     => 'bulanan'
+        );
+
+        $this->load->view('admin_sdm/hasil_laporan', $data);
+    }
+
+    function rekap_bulanan(){
+        $data = array(
+            'action'    => site_url('admin_sdm/cari_laporan_rekapan'),
+            'jenis'     => 'rekapan'
+        );
+
+        $this->load->view('admin_sdm/laporan', $data);
+    }
+
+    function cari_laporan_rekapan(){
+
+        $tanggal = $this->input->post('tanggal');
+
+        $data = array(
+            'tanggal'   => $tanggal,
+            'jenis'     => 'rekapan'
+        );
+
+        $this->load->view('admin_sdm/hasil_laporan', $data);
+    }
+
+
+       
+    /*gak dipake
+
     function laporan(){
         $this->load->view('laporan');
     }
@@ -213,26 +287,8 @@ class Admin_sdm extends CI_Controller {
         echo '</table>';
          * 
          */
-        
+        /*
         echo $this->table->generate($query);
-    }
-            
-    function about(){
-        $this->load->view('abouts');
-    }
-            
-    function is_loged_in(){
-        if ($this->session->userdata('is_logged_in') == TRUE) {
-            
-        } else {
-            $this->session->set_flashdata('pesan', 'Silahkan login di sini');
-            redirect('/');
-        }
-    }
-    
-    function log_out(){
-        $this->session->sess_destroy();
-        redirect('/');
     }
 
     function laporan_kprk(){
@@ -302,6 +358,27 @@ class Admin_sdm extends CI_Controller {
         
         $this->load->view('admin_sdm/hasil_laporan_kprk', $data);
 
+    }
+
+    */
+
+           
+    function about(){
+        $this->load->view('abouts');
+    }
+            
+    function is_loged_in(){
+        if ($this->session->userdata('is_logged_in') == TRUE) {
+            
+        } else {
+            $this->session->set_flashdata('pesan', 'Silahkan login di sini');
+            redirect('/');
+        }
+    }
+    
+    function log_out(){
+        $this->session->sess_destroy();
+        redirect('/');
     }
 }
 /* 

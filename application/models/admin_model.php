@@ -79,5 +79,12 @@ class Admin_model extends CI_Model{
         $this->db->where('substring(tgl_validasi,1,7)', $bulan);
         return $this->db->get('v_monitoring_belum_validasi_pertanggal');
     }
+
+    function get_lap_harian($tanggal){
+        $this->db->where('substring(tgl_valiasi,1,10)', $tanggal);
+        $this->db->order_by('kd_dtkantor', 'ASC');
+        $this->db->order_by('nama', 'ASC');
+        return $this->db->get('v_validasi_harian');
+    }
     
 }

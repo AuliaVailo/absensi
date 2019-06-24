@@ -164,43 +164,33 @@
     <section class="content">
       <!-- Small boxes (Stat box) -->
       <div class="row">
-        <div class="col-lg-12 col-xs-12">
-          <div class="box box-success">
-            <div class="box-header">
-              <h1>Laporan KPRK</h1>
+      <div class="col-md-12">
+          <!-- Horizontal Form -->
+          <div class="box box-info">
+            <div class="box-header with-border">
+              <h3 class="box-title">Laporan Absensi Harian</h3>
+              <p></p>
             </div>
-            <div class="box-body">
-              <form action="<?=site_url('admin_sdm/cari_laporan_kprk');?>" method="POST">
-                <div class="col-xs-4">
-                  <select class="form-control" name="tahun" required>
-                    <option value="2017">2017</option>
-                    <option value="2018">2018</option>
-                  </select>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form class="form-horizontal" action="<?=$action;?>" method="POST">
+              <div class="box-body">
+                <div class="form-group">
+                  <label for="tanggal_absensi" class="col-sm-2 control-label">Tanggal Absensi</label>
+                  <div class="col-sm-5">
+                    <input type="date" name="tanggal" value="2019-06-23" class="form-control">
+                  </div>
                 </div>
-                <div class="col-xs-5">
-                    <select class="form-control" name="bulan" required>
-                      <option value="01">Januari</option>
-                      <option value="02">Februari</option>
-                      <option value="03">Maret</option>
-                      <option value="04">April</option>
-                      <option value="05">Mei</option>
-                      <option value="06">Juni</option>
-                      <option value="07">Juli</option>
-                      <option value="08">Agustus</option>
-                      <option value="09">September</option>
-                      <option value="10">Oktober</option>
-                      <option value="11">November</option>
-                      <option value="12">Desember</option>
-                    </select>
-                </div>
-                <div class="col-xs-2">
-                  <input type="submit" name="sumbit" class="form-control btn-info btn-flat" value="Cari">
-                  
-                </div>
-              </form>
-            </div>
-          
+              </div>
+              <!-- /.box-body -->
+              <div class="box-footer">
+                <button type="reset" class="btn btn-default">Cancel</button>
+                <button type="submit" class="btn btn-info pull-right"><i class="fa fa-search"></i>&nbsp;Cari</button>
+              </div>
+              <!-- /.box-footer -->
+            </form>
           </div>
+          <!-- /.box -->
         </div>
       </div>
     </section>

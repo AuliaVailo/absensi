@@ -133,8 +133,9 @@
             <span>Laporan</span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="<?=site_url('admin_sdm/laporan_kprk');?>"><i class="fa fa-book"></i>Laporan Kehadiran KPRK</a></li>
-            <li><a href="<?=site_url('admin_sdm/laporan_kpc');?>"><i class="fa fa-book"></i>Laporan Kehadiran KPC</a></li>
+            <li><a href="<?=site_url('admin_sdm/laporan_harian');?>"><i class="fa fa-calendar"></i>Laporan Validasi Harian</a></li>
+            <li><a href="<?=site_url('admin_sdm/laporan_bulanan');?>"><i class="fa fa-calendar"></i>Laporan Validasi Bulanan</a></li>
+            <li><a href="<?=site_url('admin_sdm/rekap_bulanan');?>"><i class="fa fa-book"></i>Rekap Validasi Bulanan</a></li>
           </ul>
         </li>
         <li class="header">Tentang Aplikasi</li>
